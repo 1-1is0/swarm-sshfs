@@ -1,0 +1,73 @@
+name: swarm-sshfs
+version: ".1"
+about: an example using a .yaml file to build a CLI
+author: Kevin K. <kbknapp@gmail.com>
+
+# AppSettings can be defined as a list and are **not** ascii case sensitive
+settings:
+    - ArgRequiredElseHelp
+
+# All Args must be defined in the 'args:' list where the name of the arg, is the
+# key to a Hash object
+args:
+    # The name of this argument, is 'opt' which will be used to access the value
+    # later in your Rust code
+    - code:
+        help: search or generate file
+        short: c
+        long: code
+        # multiple: true
+        possible_values: [ search, generate ]
+        takes_value: true
+    
+    - filename:
+        help: filename to open for read or write
+        short: f
+        long: filename
+        takes_value: true
+    
+    - query:
+        help: Search for this number in generated file or generate number from one to this number
+        long: query
+        short: q
+        takes_value: true
+
+    # - mvals:
+    #     long: mult-vals
+    #     help: demos an option which has two named values
+    #     # value names can be described in a list, where the help will be shown
+    #     # --mult-vals <one> <two>
+    #     value_names:
+    #         - one
+    #         - two
+    # - minvals:
+    #     long: min-vals
+    #     multiple: true
+    #     help: you must supply at least two values to satisfy me
+    #     min_values: 2
+    # - maxvals:
+    #     long: max-vals
+    #     multiple: true
+    #     help: you can only supply a max of 3 values for me!
+    #     max_values: 3
+
+# All subcommands must be listed in the 'subcommand:' object, where the key to
+# the list is the name of the subcommand, and all settings for that command are
+# are part of a Hash object
+subcommands:
+    # The name of this subcommand will be 'subcmd' which can be accessed in your
+    # Rust code later
+    - subcmd:
+        about: demos subcommands from yaml
+        version: "0.1"
+        author: Kevin K. <kbknapp@gmail.com>
+        # Subcommand args are exactly like App args
+        args:
+            - scopt:
+                short: B
+                multiple: true
+                help: example subcommand option
+                takes_value: true
+            - scpos1:
+                help: example subcommand positional
+                index: 1
