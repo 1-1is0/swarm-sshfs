@@ -1,6 +1,7 @@
-use std::env;
+// use std::env;
 use std::fs::File;
 use std::io::{self, BufRead, Write};
+// use std::io::{self, BufRead};
 use std::path::Path;
 use clap::{App, load_yaml};
 
@@ -42,8 +43,9 @@ fn search(filename:String, query: String)  {
     // File hosts must exist in current path before this produces output
     // query = "number " + query;
     let search_query = format!("write line {} number {}", query, query);
-    println!("Search file {} for '{}'", filename, search_query);
-    if let Ok(lines) = read_lines(filename) {
+    let filepath = Path::new("/home/data/").join(filename);
+    println!("Search file {} for '{}'", filepath.display(), search_query);
+    if let Ok(lines) = read_lines(filepath) {
         // Consumes the iterator, returns an (Optional) String
         for line in lines {
             if let Ok(ip) = line {
@@ -70,20 +72,17 @@ where P: AsRef<Path>, {
 
 fn generate_file(filename: String, end_number: i32) {
     // Create a temporary file.
-    let temp_directory = env::current_dir().unwrap();
-    let temp_file = temp_directory.join(filename);
-    println!("file {}", temp_file.to_str().unwrap());
+    let d  = Path::new("/home/data/").join(filename);
+    // let temp_file = temp_directory.join("data").join(filename);
+    // println!("file {}", temp_file.to_str().unwrap());
+    println!("file {}", d.to_str().unwrap());
 
     // // Open a file in write-only (ignoring errors).
     // // This creates the file if it does not exist (and empty the file if it exists).
-    let mut file = File::create(temp_file).unwrap();
+    let mut file = File::create(d).unwrap();
 
     // // Write a &str in the file (ignoring the result).
     for i in 0..end_number {
-        writeln!(&mut file, "write line {} number {}", i, i);
+        writeln!(&mut file, "write line {} number {}", i, i).expect("Could not write");
     }
-    
-    // // Write a byte string.
-    // file.write(b"Bytes\n").unwrap();
-    // println!("Bye")
 }
