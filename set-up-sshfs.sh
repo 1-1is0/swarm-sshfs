@@ -15,8 +15,8 @@ else
     exit 1
 fi
 
-echo "install sshfs pluging with sshkey enabled from /home/${HOST_USER}/.ssh/"
-docker plugin install --grant-all-permissions vieux/sshfs sshkey.source=/home/${HOST_USER}/.ssh/
+echo "install sshfs pluging with sshkey enabled from ${SSH_KEY}"
+docker plugin install --grant-all-permissions vieux/sshfs sshkey.source=${SSH_KEY}
 
 echo "create the ${VOLUME_NAME} from ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}"
 docker volume create -d vieux/sshfs -o sshcmd=${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH} ${VOLUME_NAME}
