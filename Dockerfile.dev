@@ -1,6 +1,8 @@
 FROM rust:1.40 as builder
 
 
+# COPY config /usr/local/cargo/bin/cargo/
+COPY config /usr/local/cargo/
 RUN USER=root cargo new --bin swarm-sshfs
 WORKDIR ./swarm-sshfs
 COPY ./Cargo.toml ./Cargo.toml
